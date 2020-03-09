@@ -1,0 +1,24 @@
+29/4/2018 12:06:51 - -----------------------------------------
+29/4/2018 12:06:51 - 
+29/4/2018 12:06:51 - 
+29/4/2018 12:06:51 - - Logging started . . .
+29/4/2018 12:06:51 - 
+29/4/2018 12:06:51 - 
+29/4/2018 12:06:51 - -----------------------------------------
+29/4/2018 12:07:27 - Finished Task Creates the database structure - Duration: 00:00:04.1286601
+29/4/2018 12:07:27 - Finished Task Install database-extensions - Duration: 00:00:00.0581529
+29/4/2018 12:07:59 - Inserted 6556 relations
+29/4/2018 12:07:59 - Finished Task Reading all relations - Duration: 00:00:31.4098044
+29/4/2018 12:10:24 - Inserted 821240 ways
+29/4/2018 12:10:24 - Finished Task Read all ways - Duration: 00:02:57.1410979
+29/4/2018 12:12:47 - Inserted 7749743 nodes
+29/4/2018 12:12:47 - Finished Task Read all nodes - Duration: 00:05:19.9789830
+29/4/2018 12:12:48 - Finished Task Create indices on tRelation/tRelationTag - Duration: 00:00:00.6206566
+29/4/2018 12:13:08 - Finished Task Create indices on tWay/tNWayTag - Duration: 00:00:20.9280327
+29/4/2018 12:13:09 - Finished Task Create indices on tNode/tNodeTag - Duration: 00:00:21.7161419
+29/4/2018 12:13:09 - Finished Task Write Tags - Duration: 00:00:00.0250645
+29/4/2018 12:14:13 - Finished Task Create a geography object foreach way - Duration: 00:01:04.0170643
+29/4/2018 12:20:57 - Finished Task Create the relations in the database - Duration: 00:06:44.4834335
+29/4/2018 12:20:57 - Finished Task Create all database indicies - Duration: 00:00:00.0110317
+29/4/2018 12:21:05 - Finished Task Custom SQL-Commands after importing - Duration: 00:00:07.7366037
+29/4/2018 12:21:05 - Totalduration: 00:13:42.1976753

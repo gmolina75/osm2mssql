@@ -1,0 +1,38 @@
+7/7/2018 18:02:29 - -----------------------------------------
+7/7/2018 18:02:29 - 
+7/7/2018 18:02:29 - 
+7/7/2018 18:02:29 - - Logging started . . .
+7/7/2018 18:02:29 - 
+7/7/2018 18:02:29 - 
+7/7/2018 18:02:29 - -----------------------------------------
+7/7/2018 20:46:52 - -----------------------------------------
+7/7/2018 20:46:52 - 
+7/7/2018 20:46:52 - 
+7/7/2018 20:46:52 - - Logging started . . .
+7/7/2018 20:46:52 - 
+7/7/2018 20:46:52 - 
+7/7/2018 20:46:52 - -----------------------------------------
+7/7/2018 20:47:12 - Finished Task Creates the database structure - Duration: 00:00:03.9937108
+7/7/2018 20:47:13 - Finished Task Install database-extensions - Duration: 00:00:00.0691706
+7/7/2018 20:47:43 - Inserted 6627 relations
+7/7/2018 20:47:43 - Finished Task Reading all relations - Duration: 00:00:30.1132909
+7/7/2018 20:50:11 - Inserted 826857 ways
+7/7/2018 20:50:11 - Finished Task Read all ways - Duration: 00:02:58.4564292
+7/7/2018 20:52:55 - Inserted 7858786 nodes
+7/7/2018 20:52:55 - Finished Task Read all nodes - Duration: 00:05:42.4305482
+7/7/2018 20:52:55 - Finished Task Create indices on tRelation/tRelationTag - Duration: 00:00:00.4191209
+7/7/2018 20:53:16 - Finished Task Create indices on tNode/tNodeTag - Duration: 00:00:20.8736294
+7/7/2018 20:53:16 - Finished Task Create indices on tWay/tNWayTag - Duration: 00:00:20.9538450
+7/7/2018 20:53:16 - Finished Task Write Tags - Duration: 00:00:00.0331204
+7/7/2018 20:54:24 - Finished Task Create a geography object foreach way - Duration: 00:01:07.6843726
+7/7/2018 21:01:18 - Finished Task Create the relations in the database - Duration: 00:06:54.5688115
+7/7/2018 21:01:18 - Finished Task Create all database indicies - Duration: 00:00:00.0120336
+7/7/2018 21:01:27 - Finished Task Custom SQL-Commands after importing - Duration: 00:00:08.8836669
+7/7/2018 21:01:27 - Totalduration: 00:14:18.6810478
+7/7/2018 22:00:45 - -----------------------------------------
+7/7/2018 22:00:45 - 
+7/7/2018 22:00:45 - 
+7/7/2018 22:00:45 - - Logging started . . .
+7/7/2018 22:00:45 - 
+7/7/2018 22:00:45 - 
+7/7/2018 22:00:45 - -----------------------------------------

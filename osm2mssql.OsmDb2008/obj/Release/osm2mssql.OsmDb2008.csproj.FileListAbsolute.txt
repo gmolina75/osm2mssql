@@ -1,0 +1,10 @@
+C:\aurorasi\src\osm2mssql\Output\Release_x64\osm2mssql.OsmDb2008.dll
+C:\aurorasi\src\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csprojResolveAssemblyReference.cache
+C:\aurorasi\src\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csproj.CoreCompileInputs.cache
+C:\aurorasi\src\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csproj.CopyComplete
+C:\aurorasi\src\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.dll
+C:\aurora\osm2mssql\Output\Release_x64\osm2mssql.OsmDb2008.dll
+C:\aurora\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csprojResolveAssemblyReference.cache
+C:\aurora\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csproj.CoreCompileInputs.cache
+C:\aurora\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.csproj.CopyComplete
+C:\aurora\osm2mssql\osm2mssql.OsmDb2008\obj\Release\osm2mssql.OsmDb2008.dll

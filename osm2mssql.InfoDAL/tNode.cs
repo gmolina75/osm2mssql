@@ -11,7 +11,7 @@ namespace osm2mssql.InfoDAL
 {
     using System;
     using System.Collections.Generic;
-    
+  
     public partial class tNode
     {
         public tNode()
@@ -20,7 +20,7 @@ namespace osm2mssql.InfoDAL
         }
     
         public long Id { get; set; }
-        public System.Data.Spatial.DbGeography location { get; set; }
+        public System.Data.Entity.Spatial.DbGeography location { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     

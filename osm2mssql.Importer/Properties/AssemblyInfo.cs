@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Christian Gieswein")]
 [assembly: AssemblyProduct("osm2mssql")]
 [assembly: AssemblyCopyright("Copyright Christian Giesswein ©  2013")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Modificado pro Giancarlo Molina")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

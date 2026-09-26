@@ -72,6 +72,20 @@ Los paquetes NuGet ya están en `packages/`; si se borran, el restore usa `.nuge
 3. **Ojo**: la BD existente se elimina y recrea.
 4. Logs rotados en `Logfiles\OsmServiceLog_*.txt`.
 
+### Modo línea de comandos
+
+El mismo `osm2mssql.exe` funciona **headless**: si se lanza con argumentos no
+abre ventana y ejecuta la importación en consola, logueando siempre a archivo.
+Ejemplo mínimo:
+
+```bat
+osm2mssql.exe --file ecuador-latest.osm.pbf --host localhost --database OSM --trusted --replace
+```
+
+Sin argumentos, se abre la interfaz gráfica como siempre. Sintaxis completa,
+tabla de códigos de salida, selección de tareas y ejemplos de tarea programada
+(Windows Scheduler) en [docs/CLI.md](docs/CLI.md).
+
 Antes de usar la WebApp, ajusta los connection strings en `osm2mssql.Importer/app.config` y `osm2mssql.WebApp/Web.config` (por defecto apuntan a `(localdb)\v11.0`).
 
 ## Limitaciones conocidas
@@ -101,7 +115,7 @@ Antes de usar la WebApp, ajusta los connection strings en `osm2mssql.Importer/ap
 - [ ] **PbfOsmReader con spans/`System.IO.Pipelines`** y lectura asíncrona para mayor throughput; batching adaptativo según memoria.
 - [ ] **Tablas staging temporales** para `tWayCreation`/`tRelationCreation` y `TABLOCK` en bulk copy.
 - [ ] **Modo incremental** (diff/updates con `osmosis`/`osmium` replication) — convierte el importador en un servicio de sincronización.
-- [ ] **CLI headless**: mismas tareas ejecutables por línea de comandos para automatizar/CI (`osm2mssql --file x.pbf --db OSM --tasks all`).
+- [x] **CLI headless**: mismas tareas ejecutables por línea de comandos para automatizar/CI (`osm2mssql --file x.pbf --db OSM --tasks all`). Ver [docs/CLI.md](docs/CLI.md).
 - [ ] **Tests**: suite sobre `OsmDb` (agregados espaciales) y readers con extractos pequeños de prueba; CI con GitHub Actions + SQL Server container.
 - [ ] **Modernizar WebApp**: ASP.NET Core + minimal API + front SPA, o integrar la demo como vista del propio importador.
 - [ ] **Documentar el despliegue**: script de creación de BD, permisos CLR, y diagrama del esquema.

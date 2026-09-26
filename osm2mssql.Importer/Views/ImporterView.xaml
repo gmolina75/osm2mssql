@@ -7,16 +7,17 @@
     </Window.Resources>
     <Grid DataContext="{StaticResource vm}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="141.561"/>
+            <ColumnDefinition Width="358.439"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding LogRows}" Grid.Column="1" Margin="3"/>
-        <TabControl>
+        <ListBox ItemsSource="{Binding LogRows}" Grid.Column="2" Margin="3,3,3,3"/>
+        <TabControl Grid.ColumnSpan="2">
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Height="16" Margin="3,0,3,0" Source="../Images/world.png"/>
-                        <TextBlock Text="Importer" VerticalAlignment="Center" Margin="3"/>
+                        <TextBlock Text="Importar OSM" VerticalAlignment="Center" Margin="3"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="4">
@@ -88,7 +89,7 @@
                                     </Style>
                                 </Image.Style>
                             </Image>
-                            <Button Margin="3" VerticalAlignment="Center" Command="{Binding TryToConnect}" Grid.Row="5" Grid.Column="1" Content="{StaticResource TryToConnect}"/>
+                            <Button Margin="3" VerticalAlignment="Center" Command="{Binding TryToConnect}" Grid.Row="5" Grid.Column="1" Content="{StaticResource TryToConnect}" Click="Button_Click"/>
                         </Grid>
                     </GroupBox>
 
@@ -152,16 +153,16 @@
                                                     </ProgressBar.Style>
                                                 </ProgressBar>
                                                 <TextBlock Grid.Column="4" Text="{Binding Duration,StringFormat=hh\\:mm\\:ss}" VerticalAlignment="Center">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Result}" Value="Pending">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Result}" Value="Pending">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
                                                 </TextBlock>
                                             </Grid>
                                         </CheckBox>

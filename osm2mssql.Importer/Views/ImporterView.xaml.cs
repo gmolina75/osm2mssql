@@ -11,5 +11,10 @@ namespace osm2mssql.Importer.Views
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Xml.Serialization;
 using osm2mssql.Importer.Classes;
+using osm2mssql.Importer.Classes.CommandLine;
 using osm2mssql.Importer.Languages;
 using osm2mssql.Importer.Model;
 using osm2mssql.Library;
@@ -27,7 +28,9 @@ namespace osm2mssql.Importer
 
         public App()
         {
-            if (!Trace.Listeners.OfType<OsmTextWriterTraceListener>().Any())
+            var commandLineArgs = Environment.GetCommandLineArgs();
+            var hasCommandLineArgs = commandLineArgs != null && commandLineArgs.Length > 1;
+            if (!hasCommandLineArgs && !Trace.Listeners.OfType<OsmTextWriterTraceListener>().Any())
             {
                 Trace.Listeners.Add(new OsmTextWriterTraceListener("OsmServiceLog.txt"));
             }
@@ -37,7 +40,28 @@ namespace osm2mssql.Importer
         protected override void OnStartup(StartupEventArgs e)
         {
             ApplySavedLanguage();
+            if (e.Args != null && e.Args.Length > 0)
+            {
+                // Modo headless: sin ventana, importación por línea de comandos
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                RunCliMode(e.Args);
+                return;
+            }
             base.OnStartup(e);
+        }
+
+        private async void RunCliMode(string[] args)
+        {
+            var exitCode = (int)CliExitCode.ImportFailed;
+            try
+            {
+                exitCode = await CliImportRunner.RunAsync(args);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+            Shutdown(exitCode);
         }
 
         private static void ApplySavedLanguage()

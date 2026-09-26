@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace osm2mssql.Library
         private const string LogDirectory = "Logfiles";
         public OsmTextWriterTraceListener(string fileName)
         {
-            _logFileLocation = LogDirectory + "\\" + fileName;
+            _logFileLocation = Path.IsPathRooted(fileName) ? fileName : LogDirectory + "\\" + fileName;
             
             OpenWriter();
 
@@ -68,7 +68,7 @@ namespace osm2mssql.Library
 
         private string GenerateFileName()
         {
-            if (!Directory.Exists(LogDirectory))
+            if (!Path.IsPathRooted(_logFileLocation) && !Directory.Exists(LogDirectory))
                 Directory.CreateDirectory(LogDirectory);
             _CurrentDate = DateTime.Today;
             return Path.Combine(Path.GetDirectoryName(_logFileLocation), Path.GetFileNameWithoutExtension(_logFileLocation) + "_" + _CurrentDate.ToString("yyyyMMdd") + Path.GetExtension(_logFileLocation));

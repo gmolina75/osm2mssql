@@ -1,4 +1,4 @@
-﻿using osm2mssql.Importer.Enums;
+using osm2mssql.Importer.Enums;
 using osm2mssql.Importer.Languages;
 using osm2mssql.Library.OsmReader;
 using System;
@@ -25,6 +25,12 @@ namespace osm2mssql.Importer.Tasks
             _timer.Interval = TimeSpan.FromSeconds(1).TotalMilliseconds;
             _timer.Elapsed += (o, e) => RefreshTime();
             _timer.Start();
+
+            Language.LanguageChanged += (o, e) =>
+            {
+                if (Tasks.All(x => x.Result != TaskResult.InProgress))
+                    FillTaskList();
+            };
         }
 
         private void RefreshTime()

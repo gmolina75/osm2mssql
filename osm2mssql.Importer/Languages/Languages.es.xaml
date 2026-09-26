@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="DatabaseConnectionSettings">Configuración de conexión a la base de datos</system:String>
+    <system:String x:Key="Host">Servidor</system:String>
+    <system:String x:Key="Username">Usuario</system:String>
+    <system:String x:Key="Password">Contraseña</system:String>
+    <system:String x:Key="Database">Base de datos</system:String>
+    <system:String x:Key="TryToConnect">Probar conexión</system:String>
+    <system:String x:Key="Import">Importar</system:String>
+    <system:String x:Key="StartImport">Iniciar importación</system:String>
+    <system:String x:Key="RESTService">Servicio REST</system:String>
+    <system:String x:Key="Start">Iniciar</system:String>
+    <system:String x:Key="Stop">Detener</system:String>
+    <system:String x:Key="Language">Idioma</system:String>
+    <system:String x:Key="TabImportOsm">Importar OSM</system:String>
+
+    <system:String x:Key="CreateDatabaseTaskDescription">Crea la estructura de la base de datos</system:String>
+    <system:String x:Key="TaskInstallDbExtension">Instalar extensiones de la base de datos</system:String>
+    <system:String x:Key="ReadNodeTaskDescription">Leer todos los nodos</system:String>
+    <system:String x:Key="TaskAttributeWriterDescription">Escribir etiquetas (tags)</system:String>
+    <system:String x:Key="ReadWayTaskDescription">Leer todos los ways (vías)</system:String>
+    <system:String x:Key="CreateSpatialIndicesDescription">Crear todos los índices espaciales</system:String>
+    <system:String x:Key="CreateLineInDBTaskDescription">Crear un objeto geográfico por cada vía</system:String>
+    <system:String x:Key="ReadRelationTaskDescription">Leyendo todas las relaciones</system:String>
+    <system:String x:Key="CreateRelationInDBTaskDescription">Crear las relaciones en la base de datos</system:String>
+    <system:String x:Key="TaskExecuteSqlCommands">Comandos SQL personalizados tras la importación</system:String>
+    <system:String x:Key="TaskNodeIndicesDescription">Crear índices en tNode/tNodeTag</system:String>
+    <system:String x:Key="TaskWayIndicesDescription">Crear índices en tWay/tNWayTag</system:String>
+    <system:String x:Key="TaskRelationIndicesDescription">Crear índices en tRelation/tRelationTag</system:String>
+</ResourceDictionary>

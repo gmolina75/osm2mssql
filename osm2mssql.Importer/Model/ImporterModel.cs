@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace osm2mssql.Importer.Model
         public string Database { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Language { get; set; }
 
         public string BingApi { get; set; }
         public string WebHost { get; set; }

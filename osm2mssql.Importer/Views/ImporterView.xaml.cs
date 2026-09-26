@@ -1,4 +1,6 @@
-﻿using System.Windows;
+using System.Windows;
+using System.Windows.Controls;
+using osm2mssql.Importer.ViewModel;
 
 namespace osm2mssql.Importer.Views
 {
@@ -15,6 +17,13 @@ namespace osm2mssql.Importer.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel != null)
+                osm2mssql.Importer.Languages.Language.SetLanguage(viewModel.Model.Language);
         }
     }
 }

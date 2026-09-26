@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -57,6 +57,18 @@ namespace osm2mssql.Importer.ViewModel
         public ImporterModel Model { get; set; }
         public ObservableCollection<string> LogRows { get; private set; }
 
+        public IEnumerable<KeyValuePair<string, string>> AvailableLanguages
+        {
+            get
+            {
+                return new[]
+                {
+                    new KeyValuePair<string, string>(Language.English, "English"),
+                    new KeyValuePair<string, string>(Language.Spanish, "Español"),
+                };
+            }
+        }
+
         private bool _isNotProcessing = true;
         private ConnectionResult _lastTryConnectionResult;
 
@@ -68,6 +80,8 @@ namespace osm2mssql.Importer.ViewModel
         public ImporterViewModel()
         {
             Model = LoadModelFromFile<ImporterModel>(ViewModelSettings);
+            if (!AvailableLanguages.Any(x => x.Key == Model.Language))
+                Model.Language = Language.English;
             var dispatcher = Dispatcher.CurrentDispatcher;
             LogRows = new ObservableCollection<string>();
             if (!Trace.Listeners.OfType<WpfTraceListener>().Any())

@@ -13,6 +13,7 @@ namespace osm2mssql.Importer.Views
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = Resources["vm"];
             Loaded += MainWindow_Loaded;
         }
 

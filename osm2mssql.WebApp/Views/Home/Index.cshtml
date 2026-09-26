@@ -1,39 +1,155 @@
-﻿@{
-    ViewBag.Title = "Index";
+@{
+    ViewBag.Title = "Mapa OSM";
 }
 @model osm2mssql.WebApp.Models.ReverseGeocodingModel
-<h2>osm2mssql</h2>
+<link rel="stylesheet" href="@Url.Content("~/Content/leaflet/leaflet.css")" />
+<style>
+    html, body { height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    #layout { display: flex; height: 100%; }
+    #panel {
+        width: 340px; min-width: 340px; padding: 12px; box-sizing: border-box;
+        background: #f5f5f5; border-right: 1px solid #ccc; overflow-y: auto;
+    }
+    #panel h2 { margin: 0 0 12px 0; font-size: 20px; }
+    #panel label { display: block; margin: 8px 0 4px 0; font-weight: 600; }
+    #panel select, #panel input[type=text] { width: 100%; box-sizing: border-box; padding: 6px; }
+    #panel button { margin-top: 8px; padding: 6px 12px; cursor: pointer; }
+    #resultados { list-style: none; margin: 12px 0 0 0; padding: 0; }
+    #resultados li {
+        padding: 8px; margin-bottom: 6px; background: #fff; border: 1px solid #ddd;
+        border-radius: 4px; cursor: pointer;
+    }
+    #resultados li:hover { background: #e8f0e8; }
+    #resultados .nombre { font-weight: 600; }
+    #resultados .coords { color: #666; font-size: 12px; }
+    #mensaje { margin-top: 10px; color: #a00; }
+    #mensaje.info { color: #060; }
+    #mapa { flex: 1; height: 100%; }
+</style>
 
-@Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp))<br />
-@Html.TextBox("searchTxt", null, new { id = "search", size = 100 })<br />
-<span id="result"></span><br />
-<img id="map" src="https://download-codeplex.sec.s-msft.com/Download?ProjectName=osm2mssql&DownloadId=339435&Build=20779" />
+<div id="layout">
+    <div id="panel">
+        <h2>osm2mssql &mdash; Demo de mapa</h2>
+
+        <label for="tagType">Tipo de elemento</label>
+        @Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp), new { id = "tagType" })
+
+        <label for="texto">Buscar</label>
+        <input type="text" id="texto" placeholder="Nombre a buscar..." />
+
+        <button id="buscar" type="button">Buscar</button>
+        <div id="mensaje"></div>
+
+        <ul id="resultados"></ul>
+    </div>
+    <div id="mapa"></div>
+</div>
 
 @section scripts{
+    <script src="@Url.Content("~/Scripts/leaflet/leaflet.js")"></script>
     <script>
         $(function () {
-            $("#search").change(function () {
-                $("#result").text();
-                $("#map").hide();
-                $.ajax({
-                    dataType: "json",
-                    url: "api/ReverseGeocoding",
-                    data: {
-                        tagType : $("#SelectedTagTyp").val(),
-                        text : $(this).val()
-                    },
-                    success: function (result) {
-                        $("#result").text("Latitude: " + result.Latitude + " Longitude: " + result.Longitude);
-                        var url = 'http://ojw.dev.openstreetmap.org/StaticMap/?lat= ' + result.Latitude + '&lon=' + result.Longitude +'&z=14&layer=cloudmade_2&mode=Export&show=1';
-                        $("#map").attr("src", url);
-                        $("#map").show();
+            var mapa = L.map('mapa').setView([-0.18, -78.47], 8); // Ecuador aprox.
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(mapa);
 
-                    },
-                    error: function () {
-                        $("#result").text("Leider kein Ergebnis");
-                    }
-                });
+            var marcadorBusqueda = null;
+            var marcadorInverso = null;
+            var $mensaje = $('#mensaje');
+            var $resultados = $('#resultados');
+
+            function mostrarMensaje(texto, esInfo) {
+                $mensaje.text(texto || '');
+                $mensaje.toggleClass('info', !!esInfo);
+            }
+
+            function mostrarResultadoEnMapa(lat, lon, titulo) {
+                if (marcadorBusqueda) {
+                    mapa.removeLayer(marcadorBusqueda);
+                }
+                marcadorBusqueda = L.circleMarker([lat, lon], {
+                    radius: 8, color: '#d33', fillColor: '#f66', fillOpacity: 0.7
+                }).addTo(mapa);
+                marcadorBusqueda.bindPopup(titulo).openPopup();
+                mapa.flyTo([lat, lon], 16);
+            }
+
+            function formatearCoordenadas(lat, lon) {
+                return 'Lat: ' + lat.toFixed(6) + ', Lon: ' + lon.toFixed(6);
+            }
+
+            $('#buscar').on('click', function () {
+                var tagType = $('#tagType').val();
+                var texto = $.trim($('#texto').val());
+                $resultados.empty();
+                mostrarMensaje('');
+
+                if (!texto) {
+                    mostrarMensaje('Escribe un texto para buscar.');
+                    return;
+                }
+
+                $.getJSON('api/ReverseGeocoding/search', { tagType: tagType, text: texto })
+                    .done(function (resultados) {
+                        if (!resultados || resultados.length === 0) {
+                            mostrarMensaje('Sin resultados para la búsqueda.');
+                            return;
+                        }
+                        $.each(resultados, function (i, r) {
+                            $('<li>')
+                                .append($('<div>').addClass('nombre').text(r.name))
+                                .append($('<div>').addClass('coords').text(formatearCoordenadas(r.lat, r.lon)))
+                                .on('click', function () {
+                                    mostrarResultadoEnMapa(r.lat, r.lon, r.name);
+                                })
+                                .appendTo($resultados);
+                        });
+                        mostrarMensaje(resultados.length + ' resultado(s).', true);
+                    })
+                    .fail(function () {
+                        mostrarMensaje('Error al consultar el servidor.');
+                    });
             });
-        })
+
+            $('#texto').on('keypress', function (e) {
+                if (e.which === 13) {
+                    $('#buscar').click();
+                }
+            });
+
+            mapa.on('click', function (e) {
+                var lat = e.latlng.lat;
+                var lon = e.latlng.lng;
+                mostrarMensaje('Consultando ubicación...', true);
+
+                $.getJSON('api/ReverseGeocoding/reverse', { lat: lat, lon: lon })
+                    .done(function (info) {
+                        mostrarMensaje('');
+                        if (marcadorInverso) {
+                            mapa.removeLayer(marcadorInverso);
+                        }
+                        marcadorInverso = L.circleMarker([lat, lon], {
+                            radius: 8, color: '#36c', fillColor: '#69f', fillOpacity: 0.7
+                        }).addTo(mapa);
+
+                        var lineas = [formatearCoordenadas(lat, lon)];
+                        if (info && info.name) {
+                            lineas.push(info.name + (info.place ? ' (' + info.place + ')' : ''));
+                            lineas.push('Nivel administrativo: ' + info.adminLevel);
+                            if (info.postalCode) {
+                                lineas.push('Código postal: ' + info.postalCode);
+                            }
+                        } else {
+                            lineas.push('Sin información administrativa para este punto.');
+                        }
+                        marcadorInverso.bindPopup(lineas.join('<br>')).openPopup();
+                    })
+                    .fail(function () {
+                        mostrarMensaje('Error al consultar la geocodificación inversa.');
+                    });
+            });
+        });
     </script>
 }

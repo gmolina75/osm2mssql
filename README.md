@@ -46,9 +46,9 @@ La UI es una ventana única con: configuración de conexión con prueba en vivo,
 - **Esquema `info.`**: `info.AdminLevels` con índice espacial
 - **Ensamblado CLR** `osm2mssqlSqlExtension` con funciones y agregados espaciales (SRID 4326)
 
-### WebApp de demostración
+### Aplicación web de demostración
 
-Busca nodos por tipo de tag y texto (`Contains`) y muestra coordenadas con mapa estático. Conecta contra la misma BD `[OSM]` generada por el importador.
+Demo de mapa interactivo con **Leaflet 1.9** (vendido localmente, sin CDNs de runtime): busca nodos por tipo de tag y texto (`Contains`, top 20 ordenados por nombre) y vuela al punto seleccionado con marcador. Al hacer clic en cualquier punto del mapa responde con **geocodificación inversa real** sobre `info.AdminLevels` (la zona administrativa más específica, mayor `admin_level`). Conecta contra la misma BD `[OSM]` generada por el importador; interfaz en español.
 
 ## Requisitos
 
@@ -92,7 +92,7 @@ Antes de usar la WebApp, ajusta los connection strings en `osm2mssql.Importer/ap
 
 - Importación destructiva: sin reanudación ni modo incremental.
 - UI solo en inglés (mecanismo de localización preparado, un solo diccionario).
-- WebApp de demostración mínima: un endpoint, sin mapa interactivo propio, y su imagen de mapa por defecto apunta a un servicio caído.
+- WebApp de demostración con mapa interactivo Leaflet y geocodificación inversa; requiere la BD importada con el esquema `info.` para la función inversa.
 - Sin suite de tests.
 
 ---
@@ -105,7 +105,7 @@ Antes de usar la WebApp, ajusta los connection strings en `osm2mssql.Importer/ap
 - [ ] **Ventana de importación rediseñada**: asistente por pasos (conexión → archivo → tareas → resumen), progreso determinado (MB leídos / registros, no solo indeterminado), estimación de tiempo restante.
 - [ ] **Modo no destructivo**: opción "importar en BD nueva" / "solo regenerar geometrías", con aviso claro de pérdida de datos.
 - [ ] **Reanudación tras error**: reintentar tarea fallida sin reiniciar todo el pipeline.
-- [ ] **WebApp**: mapa interactivo (Leaflet/OpenLayers) en lugar del mapa estático caído; resultados en lista con zoom al punto; búsqueda inversa real (coordenada → ciudad/admin level) usando `info.AdminLevels`.
+- [x] **WebApp**: mapa interactivo (Leaflet/OpenLayers) en lugar del mapa estático caído; resultados en lista con zoom al punto; búsqueda inversa real (coordenada → ciudad/admin level) usando `info.AdminLevels`.
 - [ ] **Accesibilidad y consistencia visual**: temas claros/oscuros, iconografía vectorial, teclado.
 
 ### Optimización y mejora técnica

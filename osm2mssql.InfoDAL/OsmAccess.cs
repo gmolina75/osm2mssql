@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -55,6 +55,39 @@ namespace osm2mssql.InfoDAL
                     res.Add(info);
                 }
                 return res;
+            }
+        }
+
+        /// <summary>
+        /// Determines the most specific administrative area (info.AdminLevels)
+        /// covering a specified OsmPoint - the highest numeric admin_level wins.
+        /// </summary>
+        /// <param name="point">A geopoint with Latitude/Longitude</param>
+        /// <returns>The most specific CityInformation or null if nothing covers the point</returns>
+        public CityInformation GetAdminInformation(OsmPoint point)
+        {
+            OpenConnection();
+
+            var str = @"SELECT TOP(1) RelationId, Name, PostalCode, Place, AdminLevel
+                        FROM info.AdminLevels WITH(nolock, index(idx_AdminLevelsSpatial))
+                        WHERE geo.STIntersects(geography::STPointFromText('{0}',4326)) = 1
+                        ORDER BY AdminLevel DESC";
+
+            _command.CommandText = string.Format(str, GeneratePointString(point));
+            using (var reader = _command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return new CityInformation
+                    {
+                        RelationId = reader.GetInt64(0),
+                        Name = reader[1] as string,
+                        PostalCode = reader[2] as string,
+                        Place = reader[3] as string,
+                        AdminLevel = reader.GetInt32(4)
+                    };
+                }
+                return null;
             }
         }
 

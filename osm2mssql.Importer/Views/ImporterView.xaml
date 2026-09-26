@@ -6,6 +6,10 @@
         Title="osm2mssql" Width="1020" Height="780" MinWidth="820" MinHeight="560"
         WindowStartupLocation="CenterScreen" Icon="../Images/App.ico"
         Background="{StaticResource AppBackgroundBrush}">
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding TryToConnect}"/>
+        <KeyBinding Key="I" Modifiers="Control" Command="{Binding StartImport}"/>
+    </Window.InputBindings>
     <Window.Resources>
         <ViewModel:ImporterViewModel x:Key="vm"/>
         <classes:LogLineBrushConverter x:Key="LogLineBrushConverter"/>
@@ -104,7 +108,7 @@
                         <StackPanel Grid.Row="1" Margin="0,0,0,10">
                             <TextBlock Text="{DynamicResource Host}" Style="{StaticResource FormLabel}"/>
                             <Border Style="{StaticResource InputChrome}">
-                                <TextBox Text="{Binding Model.Host, Mode=TwoWay}"
+                                <TextBox Text="{Binding Model.Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          ToolTip="{DynamicResource ToolTipHost}"/>
                             </Border>
                         </StackPanel>
@@ -112,7 +116,7 @@
                         <StackPanel Grid.Row="2" Margin="0,0,0,10">
                             <TextBlock Text="{DynamicResource Database}" Style="{StaticResource FormLabel}"/>
                             <Border Style="{StaticResource InputChrome}">
-                                <TextBox Text="{Binding Model.Database, Mode=TwoWay}"
+                                <TextBox Text="{Binding Model.Database, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextChanged="DatabaseName_TextChanged"
                                          ToolTip="{DynamicResource ToolTipDatabase}"/>
                             </Border>

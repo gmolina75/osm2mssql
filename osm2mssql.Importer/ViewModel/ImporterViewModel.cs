@@ -31,8 +31,8 @@ namespace osm2mssql.Importer.ViewModel
 {
     public class ImporterViewModel : ViewModelBase
     {
-        public ICommand TryToConnect { get { return new RelayCommand(TryConnectingToDatabase); } }
-        public ICommand StartImport { get { return new RelayCommand(StartImporting); } }
+        public ICommand TryToConnect { get { return new RelayCommand(o => TryConnectingToDatabase(), o => CanConnect()); } }
+        public ICommand StartImport { get { return new RelayCommand(o => StartImporting(), o => IsNotProcessing); } }
 
         public ConnectionResult LastTryConnectionResult
         {
@@ -91,6 +91,13 @@ namespace osm2mssql.Importer.ViewModel
             }
             dispatcher.ShutdownStarted += (o, e) => SaveModelToFile<ImporterModel>(ViewModelSettings, Model);
             _runner.FillTaskList();
+        }
+
+        private bool CanConnect()
+        {
+            return Model != null
+                && !string.IsNullOrWhiteSpace(Model.Host)
+                && !string.IsNullOrWhiteSpace(Model.Database);
         }
 
         private async void TryConnectingToDatabase()

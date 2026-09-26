@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ViewModel="clr-namespace:osm2mssql.Importer.ViewModel"
         xmlns:classes="clr-namespace:osm2mssql.Importer.Classes"
-        Title="osm2mssql" Width="1020" Height="640" MinWidth="820" MinHeight="560"
+        Title="osm2mssql" Width="1020" Height="780" MinWidth="820" MinHeight="560"
         WindowStartupLocation="CenterScreen" Icon="../Images/App.ico"
         Background="{StaticResource AppBackgroundBrush}">
     <Window.Resources>
@@ -84,7 +84,7 @@
             </Grid.RowDefinitions>
 
             <!-- ===== Sección: conexión a la base de datos ===== -->
-            <Border Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Style="{StaticResource Card}">
+            <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource Card}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -129,8 +129,9 @@
                         <StackPanel Grid.Row="4" Margin="0,0,0,10">
                             <TextBlock Text="{DynamicResource Password}" Style="{StaticResource FormLabel}"/>
                             <Border Style="{StaticResource InputChrome}">
-                                <TextBox Text="{Binding Model.Password, Mode=TwoWay}"
-                                         ToolTip="{DynamicResource ToolTipPassword}"/>
+                                <PasswordBox x:Name="DbPasswordBox"
+                                             PasswordChanged="DbPasswordBox_PasswordChanged"
+                                             ToolTip="{DynamicResource ToolTipPassword}"/>
                             </Border>
                         </StackPanel>
 

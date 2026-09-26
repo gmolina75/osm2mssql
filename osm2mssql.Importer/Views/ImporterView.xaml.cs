@@ -15,6 +15,10 @@ namespace osm2mssql.Importer.Views
             InitializeComponent();
             DataContext = Resources["vm"];
             Loaded += MainWindow_Loaded;
+
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel != null)
+                DbPasswordBox.Password = viewModel.Model.Password ?? string.Empty;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -48,6 +52,13 @@ namespace osm2mssql.Importer.Views
             var viewModel = DataContext as ImporterViewModel;
             if (viewModel != null)
                 viewModel.ResetConnectionResult();
+        }
+
+        private void DbPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel != null && viewModel.Model.Password != DbPasswordBox.Password)
+                viewModel.Model.Password = DbPasswordBox.Password;
         }
     }
 }

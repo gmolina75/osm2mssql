@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<ImporterModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Host>192.168.1.25</Host>
-  <Database>osm</Database>
-  <Username>sa</Username>
-  <Password>Adminnhimrqldc</Password>
-  <WebPort>0</WebPort>
-</ImporterModel>

@@ -259,3 +259,12 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Directorio de salida de compilación del repo
+Output/
+
+# Archivos comprimidos de distribución
+*.7z
+
+# Metadatos de worktrees/agentes
+.kilo/

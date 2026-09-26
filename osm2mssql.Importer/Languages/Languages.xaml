@@ -24,6 +24,13 @@
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="AppSubtitle">OpenStreetMap to Microsoft SQL Server import tool</system:String>
     <system:String x:Key="LogPanelTitle">Log</system:String>
+    <system:String x:Key="ImportCompletedTitle">Import completed</system:String>
+    <system:String x:Key="ImportTotalDuration">Total duration: {0}</system:String>
+    <system:String x:Key="TaskStatusCompleted">Completed</system:String>
+    <system:String x:Key="TaskStatusFailed">Failed</system:String>
+    <system:String x:Key="ImportFailedTitle">Import failed</system:String>
+    <system:String x:Key="ImportFailedMessage">The task '{0}' failed: {1}</system:String>
+    <system:String x:Key="OkButton">OK</system:String>
     <system:String x:Key="ToolTipHost">SQL Server host, e.g. localhost or SERVER\INSTANCE</system:String>
     <system:String x:Key="ToolTipDatabase">Name of the database to create or replace</system:String>
     <system:String x:Key="ToolTipUsername">SQL Server login (leave empty for Windows authentication)</system:String>

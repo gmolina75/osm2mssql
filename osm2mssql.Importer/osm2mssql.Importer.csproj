@@ -209,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ImportSummaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -274,6 +278,10 @@
     </Compile>
     <Compile Include="Views\ConfirmReplaceDatabaseView.xaml.cs">
       <DependentUpon>ConfirmReplaceDatabaseView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\ImportSummaryView.xaml.cs">
+      <DependentUpon>ImportSummaryView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

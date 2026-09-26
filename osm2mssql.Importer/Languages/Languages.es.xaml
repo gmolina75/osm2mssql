@@ -23,6 +23,13 @@
     <system:String x:Key="Cancel">Cancelar</system:String>
     <system:String x:Key="AppSubtitle">Herramienta de importación de OpenStreetMap a Microsoft SQL Server</system:String>
     <system:String x:Key="LogPanelTitle">Registro</system:String>
+    <system:String x:Key="ImportCompletedTitle">Importación completada</system:String>
+    <system:String x:Key="ImportTotalDuration">Duración total: {0}</system:String>
+    <system:String x:Key="TaskStatusCompleted">Completada</system:String>
+    <system:String x:Key="TaskStatusFailed">Falló</system:String>
+    <system:String x:Key="ImportFailedTitle">Importación fallida</system:String>
+    <system:String x:Key="ImportFailedMessage">La tarea '{0}' falló: {1}</system:String>
+    <system:String x:Key="OkButton">Aceptar</system:String>
     <system:String x:Key="ToolTipHost">Servidor de SQL Server, p. ej. localhost o SERVIDOR\INSTANCIA</system:String>
     <system:String x:Key="ToolTipDatabase">Nombre de la base de datos a crear o reemplazar</system:String>
     <system:String x:Key="ToolTipUsername">Usuario de SQL Server (vacío para autenticación de Windows)</system:String>

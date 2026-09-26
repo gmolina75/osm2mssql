@@ -132,7 +132,7 @@ namespace osm2mssql.Importer.ViewModel
                     return;
                 Model.LastImportDirectory = Path.GetDirectoryName(fd.FileName);
                 var con = _connStringBuilder.CreateSqlConnectionStringBuilder(Model);
-                await _runner.RunTasks(con, fd.FileName);
+                await RunImportWithFeedback(con, fd.FileName);
             }
             catch (Exception ex)
             {
@@ -142,6 +142,38 @@ namespace osm2mssql.Importer.ViewModel
             {
                 IsNotProcessing = true;
             }
+        }
+
+        private async Task RunImportWithFeedback(SqlConnectionStringBuilder con, string fileName)
+        {
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                await _runner.RunTasks(con, fileName);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+            watch.Stop();
+
+            var failedTask = _runner.Tasks.FirstOrDefault(x => x.Result == TaskResult.Error);
+            if (failedTask != null)
+            {
+                System.Media.SystemSounds.Hand.Play();
+                var message = string.Format(Language.CurrentLanguage["ImportFailedMessage"],
+                                            failedTask.Name, failedTask.LastError != null ? failedTask.LastError.Message : string.Empty);
+                MessageBox.Show(message, Language.CurrentLanguage["ImportFailedTitle"],
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            System.Media.SystemSounds.Asterisk.Play();
+            var summaryView = new ImportSummaryView(watch.Elapsed, _runner.Tasks.Where(x => x.IsEnabled))
+            {
+                Owner = Application.Current != null ? Application.Current.MainWindow : null
+            };
+            summaryView.ShowDialog();
         }
 
 

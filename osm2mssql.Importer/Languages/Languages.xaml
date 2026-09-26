@@ -16,6 +16,12 @@
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="TabImportOsm">Import OSM</system:String>
+    <system:String x:Key="DatabaseWillBeCreated">A new database will be created</system:String>
+    <system:String x:Key="DatabaseWillBeReplaced">The existing database will be REPLACED - all data will be lost!</system:String>
+    <system:String x:Key="ReplaceDatabaseTitle">Replace database?</system:String>
+    <system:String x:Key="ReplaceDatabaseWarning">The database '{0}' already exists. If you continue, ALL DATA stored in that database will be permanently DELETED. Do you really want to replace it?</system:String>
+    <system:String x:Key="Replace">Replace</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
 
     <system:String x:Key="CreateDatabaseTaskDescription">Creates the database structure</system:String>
     <system:String x:Key="TaskInstallDbExtension">Install database-extensions</system:String>

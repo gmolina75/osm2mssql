@@ -25,5 +25,12 @@ namespace osm2mssql.Importer.Views
             if (viewModel != null)
                 osm2mssql.Importer.Languages.Language.SetLanguage(viewModel.Model.Language);
         }
+
+        private void DatabaseName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel != null)
+                viewModel.ResetConnectionResult();
+        }
     }
 }

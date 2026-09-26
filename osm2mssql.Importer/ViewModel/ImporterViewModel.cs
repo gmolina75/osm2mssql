@@ -23,6 +23,7 @@ using osm2mssql.Importer.Enums;
 using osm2mssql.Importer.Languages;
 using osm2mssql.Importer.Model;
 using osm2mssql.Importer.Tasks;
+using osm2mssql.Importer.Views;
 using osm2mssql.Library.OpenStreetMapTypes;
 using osm2mssql.Library.OsmReader;
 
@@ -97,6 +98,11 @@ namespace osm2mssql.Importer.ViewModel
             LastTryConnectionResult = await _dbChecker.CheckDatabaseAvailability(_connStringBuilder.CreateSqlConnectionStringBuilder(Model));
         }
 
+        public void ResetConnectionResult()
+        {
+            LastTryConnectionResult = ConnectionResult.Unknown;
+        }
+
         private async void StartImporting()
         {
             try
@@ -106,7 +112,11 @@ namespace osm2mssql.Importer.ViewModel
 
                 if (LastTryConnectionResult == ConnectionResult.DbAlreadyExists)
                 {
-                    if (MessageBox.Show("The database already exists, replace it ?", "Duplicate", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                    var confirmView = new ConfirmReplaceDatabaseView(Model.Database)
+                    {
+                        Owner = Application.Current != null ? Application.Current.MainWindow : null
+                    };
+                    if (confirmView.ShowDialog() != true)
                         return;
                 }
 

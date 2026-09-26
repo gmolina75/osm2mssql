@@ -15,6 +15,12 @@
     <system:String x:Key="Stop">Detener</system:String>
     <system:String x:Key="Language">Idioma</system:String>
     <system:String x:Key="TabImportOsm">Importar OSM</system:String>
+    <system:String x:Key="DatabaseWillBeCreated">Se creará una nueva base de datos</system:String>
+    <system:String x:Key="DatabaseWillBeReplaced">Se REEMPLAZARÁ la base de datos existente (¡todos los datos se perderán!)</system:String>
+    <system:String x:Key="ReplaceDatabaseTitle">¿Reemplazar la base de datos?</system:String>
+    <system:String x:Key="ReplaceDatabaseWarning">La base de datos '{0}' ya existe. Si continúa, TODOS LOS DATOS almacenados en ella se eliminarán PERMANENTEMENTE. ¿Realmente desea reemplazarla?</system:String>
+    <system:String x:Key="Replace">Reemplazar</system:String>
+    <system:String x:Key="Cancel">Cancelar</system:String>
 
     <system:String x:Key="CreateDatabaseTaskDescription">Crea la estructura de la base de datos</system:String>
     <system:String x:Key="TaskInstallDbExtension">Instalar extensiones de la base de datos</system:String>

@@ -15,10 +15,64 @@ namespace osm2mssql.Importer.Views
             InitializeComponent();
             DataContext = Resources["vm"];
             Loaded += MainWindow_Loaded;
+            Closing += MainWindow_Closing;
 
             var viewModel = DataContext as ImporterViewModel;
             if (viewModel != null)
+            {
                 DbPasswordBox.Password = viewModel.Model.Password ?? string.Empty;
+                RestoreWindowSettings(viewModel.Model);
+            }
+        }
+
+        private void RestoreWindowSettings(Model.ImporterModel model)
+        {
+            try
+            {
+                if (model.WindowWidth >= MinWidth && model.WindowHeight >= MinHeight
+                    && model.WindowWidth <= SystemParameters.VirtualScreenWidth
+                    && model.WindowHeight <= SystemParameters.VirtualScreenHeight)
+                {
+                    Width = model.WindowWidth;
+                    Height = model.WindowHeight;
+                }
+
+                if (model.WindowLeft > SystemParameters.VirtualScreenLeft - model.WindowWidth
+                    && model.WindowTop > SystemParameters.VirtualScreenTop - model.WindowHeight
+                    && model.WindowLeft < SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth
+                    && model.WindowTop < SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight)
+                {
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Left = model.WindowLeft;
+                    Top = model.WindowTop;
+                }
+            }
+            catch
+            {
+                // Geometría no válida: se mantiene el valor por defecto de la ventana
+            }
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel == null)
+                return;
+            try
+            {
+                var bounds = WindowState == WindowState.Maximized ? RestoreBounds : new Rect(Left, Top, Width, Height);
+                if (bounds.Width > 0 && bounds.Height > 0)
+                {
+                    viewModel.Model.WindowLeft = bounds.Left;
+                    viewModel.Model.WindowTop = bounds.Top;
+                    viewModel.Model.WindowWidth = bounds.Width;
+                    viewModel.Model.WindowHeight = bounds.Height;
+                }
+            }
+            catch
+            {
+                // No se pudo capturar la geometría: se conserva la última conocida
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

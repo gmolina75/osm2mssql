@@ -126,8 +126,11 @@ namespace osm2mssql.Importer.ViewModel
 
                 var fd = new OpenFileDialog();
                 fd.Filter = "OpenStreetMap Files (*.xml, *.pbf)|*.xml;*.pbf|All files (*.*)|*.*";
+                if (!string.IsNullOrEmpty(Model.LastImportDirectory) && Directory.Exists(Model.LastImportDirectory))
+                    fd.InitialDirectory = Model.LastImportDirectory;
                 if (fd.ShowDialog() != true)
                     return;
+                Model.LastImportDirectory = Path.GetDirectoryName(fd.FileName);
                 var con = _connStringBuilder.CreateSqlConnectionStringBuilder(Model);
                 await _runner.RunTasks(con, fd.FileName);
             }

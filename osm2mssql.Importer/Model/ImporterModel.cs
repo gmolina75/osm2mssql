@@ -23,6 +23,12 @@ namespace osm2mssql.Importer.Model
         public string WebUsername { get; set; }
         public string WebPassword { get; set; }
 
+        public double WindowLeft { get; set; }
+        public double WindowTop { get; set; }
+        public double WindowWidth { get; set; }
+        public double WindowHeight { get; set; }
+        public string LastImportDirectory { get; set; }
+
         private string _plainPassword;
 
         [OnSerializing]

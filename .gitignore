@@ -268,3 +268,6 @@ Output/
 
 # Metadatos de worktrees/agentes
 .kilo/
+
+# Herramientas de desarrollo de agentes (no se versionan)
+.agents/

@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using osm2mssql.Importer.ViewModel;
@@ -12,6 +13,21 @@ namespace osm2mssql.Importer.Views
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as ImporterViewModel;
+            if (viewModel == null)
+                return;
+
+            viewModel.LogRows.CollectionChanged += (o, args) =>
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (LogList.Items.Count > 0)
+                        LogList.ScrollIntoView(LogList.Items[LogList.Items.Count - 1]);
+                }));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

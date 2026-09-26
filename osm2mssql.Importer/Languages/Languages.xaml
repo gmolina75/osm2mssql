@@ -22,6 +22,15 @@
     <system:String x:Key="ReplaceDatabaseWarning">The database '{0}' already exists. If you continue, ALL DATA stored in that database will be permanently DELETED. Do you really want to replace it?</system:String>
     <system:String x:Key="Replace">Replace</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="AppSubtitle">OpenStreetMap to Microsoft SQL Server import tool</system:String>
+    <system:String x:Key="LogPanelTitle">Log</system:String>
+    <system:String x:Key="ToolTipHost">SQL Server host, e.g. localhost or SERVER\INSTANCE</system:String>
+    <system:String x:Key="ToolTipDatabase">Name of the database to create or replace</system:String>
+    <system:String x:Key="ToolTipUsername">SQL Server login (leave empty for Windows authentication)</system:String>
+    <system:String x:Key="ToolTipPassword">Password of the SQL Server login</system:String>
+    <system:String x:Key="ToolTipTryToConnect">Tests the connection and checks whether the database already exists</system:String>
+    <system:String x:Key="ToolTipStartImport">Selects an OSM file and runs the selected tasks</system:String>
+    <system:String x:Key="ToolTipLanguage">Interface language</system:String>
 
     <system:String x:Key="CreateDatabaseTaskDescription">Creates the database structure</system:String>
     <system:String x:Key="TaskInstallDbExtension">Install database-extensions</system:String>

@@ -271,3 +271,6 @@ Output/
 
 # Herramientas de desarrollo de agentes (no se versionan)
 .agents/
+# Herramientas de agentes
+.claude/
+skills-lock.json

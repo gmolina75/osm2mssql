@@ -1,4 +1,4 @@
-﻿using osm2mssql.InfoDAL;
+using osm2mssql.InfoDAL;
 using osm2mssql.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,27 @@ namespace osm2mssql.WebApp.Controllers
     {
         public ActionResult Index()
         {
-            osm2Entities db = new osm2Entities();
             var model = new ReverseGeocodingModel
             {
-                TagTypes = db.tTagType.OrderBy(x => x.Typ).ToList()
+                SelectedTagTyp = 0,
+                TagTypes = new List<tTagType>()
             };
+
+            try
+            {
+                using (var db = new osm2Entities())
+                {
+                    model.TagTypes = db.tTagType.OrderBy(x => x.Typ).ToList();
+                    if (model.TagTypes.Any())
+                        model.SelectedTagTyp = model.TagTypes.First().Typ;
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage =
+                    "No se pudo conectar a la base de datos OSM. Revisa el connection string 'osm2Entities' en Web.config.";
+            }
+
             return View(model);
         }
     }

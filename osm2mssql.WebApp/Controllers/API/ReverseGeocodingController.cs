@@ -30,38 +30,51 @@ namespace osm2mssql.WebApp.Controllers.API
 
         [HttpGet]
         [Route("api/ReverseGeocoding/search")]
-        public IEnumerable<NodeTagSearchResult> Search(int tagType, string text)
+        public IHttpActionResult Search(int tagType, string text)
         {
+            if (tagType <= 0)
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'tagType' es obligatorio y debe ser mayor que cero." });
+            if (string.IsNullOrWhiteSpace(text))
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'text' es obligatorio." });
+
             var db = new InfoDAL.osm2Entities();
             var query = db.tNodeTag.Where(x => x.Typ == tagType)
                                    .Where(x => x.Info.Contains(text))
                                    .OrderBy(x => x.Info)
                                    .Take(20);
-            return query.ToList().Select(x => new NodeTagSearchResult
+            var resultados = query.ToList().Select(x => new NodeTagSearchResult
             {
                 Name = x.Info,
                 TagType = x.Typ,
                 Lat = x.tNode.Latitude,
                 Lon = x.tNode.Longitude
-            });
+            }).ToList();
+            return Ok(resultados);
         }
 
         [HttpGet]
         [Route("api/ReverseGeocoding/reverse")]
-        public AdminReverseResult Reverse(double lat, double lon)
+        public IHttpActionResult Reverse(double lat, double lon)
         {
+            if (!ModelState.IsValid)
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "Los parámetros 'lat' y 'lon' deben ser numéricos." });
+            if (lat < -90 || lat > 90)
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'lat' debe estar entre -90 y 90." });
+            if (lon < -180 || lon > 180)
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'lon' debe estar entre -180 y 180." });
+
             using (var access = new InfoDAL.OsmAccess(GetProviderConnectionString()))
             {
                 var info = access.GetAdminInformation(new InfoDAL.OsmPoint { Latitude = lat, Longitude = lon });
                 if (info == null)
-                    return new AdminReverseResult();
-                return new AdminReverseResult
+                    return Ok(new AdminReverseResult());
+                return Ok(new AdminReverseResult
                 {
                     Name = info.Name,
                     AdminLevel = info.AdminLevel,
                     Place = info.Place,
                     PostalCode = info.PostalCode
-                };
+                });
             }
         }
 

@@ -24,6 +24,10 @@
     #resultados .coords { color: #666; font-size: 12px; }
     #mensaje { margin-top: 10px; color: #a00; }
     #mensaje.info { color: #060; }
+    #aviso-bd {
+        padding: 10px; margin-bottom: 12px; background: #f2dede; color: #a94442;
+        border: 1px solid #ebccd1; border-radius: 4px; font-size: 14px;
+    }
     #mapa { flex: 1; height: 100%; }
 </style>
 
@@ -31,13 +35,18 @@
     <div id="panel">
         <h2>osm2mssql &mdash; Demo de mapa</h2>
 
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div id="aviso-bd">@ViewBag.ErrorMessage</div>
+        }
+
         <label for="tagType">Tipo de elemento</label>
-        @Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp), new { id = "tagType" })
+        @Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp), new { id = "tagType", disabled = string.IsNullOrEmpty(ViewBag.ErrorMessage) ? null : "disabled" })
 
         <label for="texto">Buscar</label>
-        <input type="text" id="texto" placeholder="Nombre a buscar..." />
+        <input type="text" id="texto" placeholder="Nombre a buscar..." @(string.IsNullOrEmpty(ViewBag.ErrorMessage) ? "" : "disabled=\"disabled\"") />
 
-        <button id="buscar" type="button">Buscar</button>
+        <button id="buscar" type="button" @(string.IsNullOrEmpty(ViewBag.ErrorMessage) ? "" : "disabled=\"disabled\"")>Buscar</button>
         <div id="mensaje"></div>
 
         <ul id="resultados"></ul>
@@ -63,6 +72,14 @@
             function mostrarMensaje(texto, esInfo) {
                 $mensaje.text(texto || '');
                 $mensaje.toggleClass('info', !!esInfo);
+            }
+
+            function mostrarErrorAjax(xhr, mensajeGenerico) {
+                var mensaje = mensajeGenerico;
+                if (xhr && xhr.responseJSON && xhr.responseJSON.error) {
+                    mensaje = xhr.responseJSON.error;
+                }
+                mostrarMensaje(mensaje);
             }
 
             function mostrarResultadoEnMapa(lat, lon, titulo) {
@@ -108,8 +125,8 @@
                         });
                         mostrarMensaje(resultados.length + ' resultado(s).', true);
                     })
-                    .fail(function () {
-                        mostrarMensaje('Error al consultar el servidor.');
+                    .fail(function (xhr) {
+                        mostrarErrorAjax(xhr, 'Error al consultar el servidor.');
                     });
             });
 
@@ -146,8 +163,8 @@
                         }
                         marcadorInverso.bindPopup(lineas.join('<br>')).openPopup();
                     })
-                    .fail(function () {
-                        mostrarMensaje('Error al consultar la geocodificación inversa.');
+                    .fail(function (xhr) {
+                        mostrarErrorAjax(xhr, 'Error al consultar la geocodificación inversa.');
                     });
             });
         });

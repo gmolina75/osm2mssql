@@ -1,18 +1,30 @@
-﻿@{
+@{
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Fehler</title>
+    <title>Error</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; margin: 0; }
+        .contenedor {
+            max-width: 600px; margin: 80px auto; padding: 24px; background: #fff;
+            border: 1px solid #ddd; border-radius: 6px; text-align: center;
+        }
+        h1 { color: #a94442; font-size: 22px; margin-top: 0; }
+        p { color: #555; }
+        a { color: #36c; }
+    </style>
 </head>
 <body>
-    <hgroup>
-        <h1>Fehler</h1>
-        <h2>Fehler bei der Verarbeitung Ihrer Anforderung.</h2>
-    </hgroup>
+    <div class="contenedor">
+        <h1>Se produjo un error</h1>
+        <p>Lo sentimos, ocurrió un error inesperado al procesar tu solicitud.</p>
+        <p>Inténtalo de nuevo. Si el problema persiste, revisa la configuración de la aplicación.</p>
+        <p><a href="@Url.Action("Index", "Home")">Volver al mapa</a></p>
+    </div>
 </body>
 </html>

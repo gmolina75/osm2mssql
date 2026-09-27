@@ -10,6 +10,7 @@ namespace osm2mssql.WebApp
         public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+            config.Filters.Add(new Filters.ApiExceptionFilterAttribute());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

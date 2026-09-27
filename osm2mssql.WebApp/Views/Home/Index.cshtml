@@ -2,7 +2,7 @@
     ViewBag.Title = "Mapa OSM";
 }
 @model osm2mssql.WebApp.Models.ReverseGeocodingModel
-<link rel="stylesheet" href="@Url.Content("~/Content/leaflet/leaflet.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Content/openlayers/ol.css")" />
 <style>
     html, body { height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
     #layout { display: flex; height: 100%; }
@@ -29,6 +29,11 @@
         border: 1px solid #ebccd1; border-radius: 4px; font-size: 14px;
     }
     #mapa { flex: 1; height: 100%; }
+    #popup {
+        display: none; background: #fff; border: 1px solid #999; border-radius: 4px;
+        padding: 8px 10px; font-size: 13px; max-width: 260px;
+        box-shadow: 0 1px 4px rgba(0,0,0,.3);
+    }
 </style>
 
 <div id="layout">
@@ -53,22 +58,61 @@
         <ul id="resultados"></ul>
     </div>
     <div id="mapa"></div>
+    <div id="popup"></div>
 </div>
 
 @section scripts{
-    <script src="@Url.Content("~/Scripts/leaflet/leaflet.js")"></script>
+    <script src="@Url.Content("~/Scripts/openlayers/ol.js")"></script>
     <script>
         $(function () {
-            var mapa = L.map('mapa').setView([-0.18, -78.47], 8); // Ecuador aprox.
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(mapa);
+            var vista = new ol.View({
+                center: ol.proj.fromLonLat([-78.47, -0.18]), // Ecuador aprox.
+                zoom: 8
+            });
+            var mapa = new ol.Map({
+                target: 'mapa',
+                layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
+                view: vista
+            });
+
+            var fuenteMarcadores = new ol.source.Vector();
+            mapa.addLayer(new ol.layer.Vector({ source: fuenteMarcadores }));
 
             var marcadorBusqueda = null;
             var marcadorInverso = null;
             var $mensaje = $('#mensaje');
             var $resultados = $('#resultados');
+
+            var popupOverlay = new ol.Overlay({
+                element: document.getElementById('popup'),
+                positioning: 'bottom-center',
+                offset: [0, -12],
+                stopEvent: true
+            });
+            mapa.addOverlay(popupOverlay);
+
+            function mostrarPopup(coordenada, html) {
+                document.getElementById('popup').innerHTML = html;
+                document.getElementById('popup').style.display = 'block';
+                popupOverlay.setPosition(coordenada);
+            }
+
+            function ocultarPopup() {
+                popupOverlay.setPosition(undefined);
+                document.getElementById('popup').style.display = 'none';
+            }
+
+            function crearEstilo(borde, relleno) {
+                return new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 8,
+                        fill: new ol.style.Fill({ color: relleno }),
+                        stroke: new ol.style.Stroke({ color: borde, width: 2 })
+                    })
+                });
+            }
+            var estiloBusqueda = crearEstilo('#d33', 'rgba(255, 102, 102, 0.7)');
+            var estiloInverso = crearEstilo('#36c', 'rgba(102, 153, 255, 0.7)');
 
             function mostrarMensaje(texto, esInfo) {
                 $mensaje.text(texto || '');
@@ -84,14 +128,15 @@
             }
 
             function mostrarResultadoEnMapa(lat, lon, titulo) {
+                var coordenada = ol.proj.fromLonLat([lon, lat]);
                 if (marcadorBusqueda) {
-                    mapa.removeLayer(marcadorBusqueda);
+                    fuenteMarcadores.removeFeature(marcadorBusqueda);
                 }
-                marcadorBusqueda = L.circleMarker([lat, lon], {
-                    radius: 8, color: '#d33', fillColor: '#f66', fillOpacity: 0.7
-                }).addTo(mapa);
-                marcadorBusqueda.bindPopup(titulo).openPopup();
-                mapa.flyTo([lat, lon], 16);
+                marcadorBusqueda = new ol.Feature({ geometry: new ol.geom.Point(coordenada) });
+                marcadorBusqueda.setStyle(estiloBusqueda);
+                fuenteMarcadores.addFeature(marcadorBusqueda);
+                mostrarPopup(coordenada, '<b>' + titulo + '</b><br>' + formatearCoordenadas(lat, lon));
+                vista.animate({ center: coordenada, zoom: 16, duration: 1000 });
             }
 
             function formatearCoordenadas(lat, lon) {
@@ -142,20 +187,21 @@
                 }
             });
 
-            mapa.on('click', function (e) {
-                var lat = e.latlng.lat;
-                var lon = e.latlng.lng;
+            mapa.on('click', function (evt) {
+                var lonlat = ol.proj.toLonLat(evt.coordinate);
+                var lon = lonlat[0];
+                var lat = lonlat[1];
                 mostrarMensaje('Consultando ubicación...', true);
 
                 $.getJSON('api/ReverseGeocoding/reverse', { lat: lat, lon: lon })
                     .done(function (info) {
                         mostrarMensaje('');
                         if (marcadorInverso) {
-                            mapa.removeLayer(marcadorInverso);
+                            fuenteMarcadores.removeFeature(marcadorInverso);
                         }
-                        marcadorInverso = L.circleMarker([lat, lon], {
-                            radius: 8, color: '#36c', fillColor: '#69f', fillOpacity: 0.7
-                        }).addTo(mapa);
+                        marcadorInverso = new ol.Feature({ geometry: new ol.geom.Point(evt.coordinate) });
+                        marcadorInverso.setStyle(estiloInverso);
+                        fuenteMarcadores.addFeature(marcadorInverso);
 
                         var lineas = [formatearCoordenadas(lat, lon)];
                         if (info && info.name) {
@@ -167,9 +213,10 @@
                         } else {
                             lineas.push('Sin información administrativa para este punto.');
                         }
-                        marcadorInverso.bindPopup(lineas.join('<br>')).openPopup();
+                        mostrarPopup(evt.coordinate, lineas.join('<br>'));
                     })
                     .fail(function (xhr) {
+                        ocultarPopup();
                         mostrarErrorAjax(xhr, 'Error al consultar la geocodificación inversa.');
                     });
             });

@@ -48,7 +48,7 @@ La UI es una ventana única con: configuración de conexión con prueba en vivo,
 
 ### Aplicación web de demostración
 
-Demo de mapa interactivo con **Leaflet 1.9** (vendido localmente, sin CDNs de runtime): busca nodos por tipo de tag y texto (`Contains`, top 20 ordenados por nombre) y vuela al punto seleccionado con marcador. Al hacer clic en cualquier punto del mapa responde con **geocodificación inversa real** sobre `info.AdminLevels` (la zona administrativa más específica, mayor `admin_level`). Conecta contra la misma BD `[OSM]` generada por el importador; interfaz en español.
+Demo de mapa interactivo con **OpenLayers 10** (vendido localmente, sin CDNs de runtime): busca nodos por tipo de tag y texto (`Contains`, top 20 ordenados por nombre) y vuela al punto seleccionado con marcador. Al hacer clic en cualquier punto del mapa responde con **geocodificación inversa real** sobre `info.AdminLevels` (la zona administrativa más específica, mayor `admin_level`). Conecta contra la misma BD `[OSM]` generada por el importador; interfaz en español.
 
 ## Requisitos
 

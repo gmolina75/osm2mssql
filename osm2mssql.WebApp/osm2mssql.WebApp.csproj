@@ -219,9 +219,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
-    <Content Include="Scripts\leaflet\leaflet.js" />
-    <Content Include="Scripts\leaflet\LICENSE.txt" />
-    <Content Include="Content\leaflet\leaflet.css" />
+    <Content Include="Scripts\openlayers\ol.js" />
+    <Content Include="Scripts\openlayers\LICENSE.txt" />
+    <Content Include="Content\openlayers\ol.css" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +22,10 @@ namespace osm2mssql.WebApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Con attribute routing, la configuración de Web API debe inicializarse
+            // explícitamente una vez registrado todo lo demás.
+            GlobalConfiguration.Configuration.EnsureInitialized();
         }
     }
 }

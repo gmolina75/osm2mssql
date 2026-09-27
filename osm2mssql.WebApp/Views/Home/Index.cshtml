@@ -41,7 +41,7 @@
         }
 
         <label for="tagType">Tipo de elemento</label>
-        @Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp), new { id = "tagType", disabled = string.IsNullOrEmpty(ViewBag.ErrorMessage) ? null : "disabled" })
+        @Html.DropDownListFor(x => x.SelectedTagTyp, new SelectList(Model.TagTypes, "Typ", "Name", Model.SelectedTagTyp), "— Selecciona un tipo —", new { id = "tagType", disabled = string.IsNullOrEmpty(ViewBag.ErrorMessage) ? null : "disabled" })
 
         <label for="texto">Buscar</label>
         <input type="text" id="texto" placeholder="Nombre a buscar..." @(string.IsNullOrEmpty(ViewBag.ErrorMessage) ? "" : "disabled=\"disabled\"") />
@@ -105,6 +105,11 @@
 
                 if (!texto) {
                     mostrarMensaje('Escribe un texto para buscar.');
+                    return;
+                }
+
+                if (!tagType) {
+                    mostrarMensaje('Selecciona un tipo de elemento para buscar.');
                     return;
                 }
 

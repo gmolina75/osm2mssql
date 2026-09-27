@@ -33,7 +33,7 @@ namespace osm2mssql.WebApp.Controllers.API
         public IHttpActionResult Search(int tagType, string text)
         {
             if (tagType <= 0)
-                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'tagType' es obligatorio y debe ser mayor que cero." });
+                return Content(System.Net.HttpStatusCode.BadRequest, new { error = "Selecciona un tipo de elemento para buscar." });
             if (string.IsNullOrWhiteSpace(text))
                 return Content(System.Net.HttpStatusCode.BadRequest, new { error = "El parámetro 'text' es obligatorio." });
 
